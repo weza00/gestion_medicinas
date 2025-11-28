@@ -84,6 +84,20 @@ CREATE TABLE `pedido_detalle` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
+-- Tabla: logs
+-- -----------------------------------------------------
+CREATE TABLE `logs` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`usuario_id` INT UNSIGNED NOT NULL,
+	`accion` VARCHAR(255) NOT NULL,
+	`fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`referencia_id` INT NULL,
+	PRIMARY KEY (`id`),
+	KEY `fk_logs_usuario_idx` (`usuario_id`),
+	CONSTRAINT `fk_logs_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
 -- Índices y optimizaciones adicionales
 -- -----------------------------------------------------
 ALTER TABLE `medicamentos` ADD FULLTEXT KEY `ft_medicamentos_nombre_descripcion` (`nombre`, `descripcion`);
