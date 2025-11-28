@@ -18,7 +18,7 @@
     <div class="auth-wrapper">
         <div class="auth-card">
             <h2 style="color: var(--primary-dark); margin-bottom: 10px;">Bienvenido</h2>
-            <p style="color: var(--text-light); margin-bottom: 30px;">Ingresa a tu cuenta para gestionar tus pedidos.</p>
+            <p style="color: var(--text-light); margin-bottom: 30px;">Ingresa a tu cuenta autorizada del hospital.</p>
 
             <?php if(isset($data['error']) && !empty($data['error'])): ?>
                 <div class="alert alert-error"><?php echo $data['error']; ?></div>
@@ -38,8 +38,12 @@
                 <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
             </form>
 
-            <div class="mt-20">
-                <p style="font-size: 0.9rem;">¿No tienes cuenta? <a href="<?php echo BASE_URL; ?>/auth/registro" style="color: var(--primary); font-weight: bold;">Regístrate aquí</a></p>
+            <div class="mt-20" style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <p style="font-size: 0.9rem; margin: 0; color: var(--text-light);">
+                    <strong>¿No tienes cuenta?</strong><br>
+                    Solo el personal del hospital puede crear cuentas de pacientes.<br>
+                    Contacta al administrador del sistema.
+                </p>
             </div>
         </div>
     </div>

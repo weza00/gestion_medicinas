@@ -10,23 +10,11 @@ class AuthController extends Controller {
         $this->login();
     }
 
+    // Registro eliminado - Solo admins pueden crear cuentas
     public function registro() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $datos = [
-                'nombre' => trim($_POST['nombre']),
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'rol' => 'paciente'
-            ];
-
-            if ($this->usuarioModelo->registrar($datos)) {
-                header('location: ' . BASE_URL . '/auth/login');
-            } else {
-                die('Algo salió mal al registrar.');
-            }
-        } else {
-            $this->view('auth/registro');
-        }
+        // Redireccionar al login si alguien intenta acceder al registro
+        header('location: ' . BASE_URL . '/auth/login');
+        exit();
     }
 
     public function login() {
@@ -46,13 +34,9 @@ class AuthController extends Controller {
                 // --- LOGICA DE REDIRECCIÓN INTELIGENTE ---
                 switch ($usuarioLogueado->rol) {
                     case 'admin':
-                        header('location: ' . BASE_URL . '/admin/index');
-                        break;
                     case 'validador':
-                        header('location: ' . BASE_URL . '/validacion/index');
-                        break;
                     case 'farmaceutico':
-                        header('location: ' . BASE_URL . '/farmacia/index');
+                        header('location: ' . BASE_URL . '/hospital/inicio');
                         break;
                     default: // Pacientes
                         header('location: ' . BASE_URL . '/home');
@@ -61,7 +45,7 @@ class AuthController extends Controller {
                 // -----------------------------------------
 
             } else {
-                $datos = ['error' => 'Password o email incorrectos'];
+                $datos = ['error' => 'Email o contraseña incorrectos'];
                 $this->view('auth/login', $datos);
             }
         } else {
@@ -72,7 +56,7 @@ class AuthController extends Controller {
 
     public function logout() {
         session_destroy();
-        header('location: ' . BASE_URL . '/auth/login');
+        header('location: ' . BASE_URL . '/home');
     }
 }
 ?>
