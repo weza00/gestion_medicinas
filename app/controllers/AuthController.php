@@ -1,10 +1,8 @@
 <?php
 class AuthController extends Controller {
-    // 1. AQUI ESTABA EL ERROR: Declaramos la propiedad primero
     private $usuarioModelo;
 
     public function __construct() {
-        // Ahora sí podemos usarla
         $this->usuarioModelo = $this->model('Usuario');
     }
 
@@ -39,12 +37,29 @@ class AuthController extends Controller {
             $usuarioLogueado = $this->usuarioModelo->login($email, $password);
 
             if ($usuarioLogueado) {
+                // Crear Sesión
                 $_SESSION['user_id'] = $usuarioLogueado->id;
                 $_SESSION['user_email'] = $usuarioLogueado->email;
                 $_SESSION['user_nombre'] = $usuarioLogueado->nombre;
                 $_SESSION['user_rol'] = $usuarioLogueado->rol;
 
-                header('location: ' . BASE_URL . '/home');
+                // --- LOGICA DE REDIRECCIÓN INTELIGENTE ---
+                switch ($usuarioLogueado->rol) {
+                    case 'admin':
+                        header('location: ' . BASE_URL . '/admin/index');
+                        break;
+                    case 'validador':
+                        header('location: ' . BASE_URL . '/validacion/index');
+                        break;
+                    case 'farmaceutico':
+                        header('location: ' . BASE_URL . '/farmacia/index');
+                        break;
+                    default: // Pacientes
+                        header('location: ' . BASE_URL . '/home');
+                        break;
+                }
+                // -----------------------------------------
+
             } else {
                 $datos = ['error' => 'Password o email incorrectos'];
                 $this->view('auth/login', $datos);

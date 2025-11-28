@@ -1,0 +1,141 @@
+/* --- 1. Variables Globales --- */
+:root {
+    --primary: #00b4d8;      /* Turquesa */
+    --primary-dark: #0077b6; /* Azul fuerte */
+    --accent: #caf0f8;       /* Celeste muy claro */
+    --text-dark: #2b2d42;
+    --text-light: #6c757d;
+    --bg-body: #f8f9fa;
+    --white: #ffffff;
+    --success: #38b000;
+    --danger: #d90429;
+    --warning: #ffb703;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-dark); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; width: 100%; }
+
+/* --- 2. Navbar --- */
+.navbar { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+.logo { font-size: 1.6rem; font-weight: 800; color: var(--primary-dark); }
+.logo span { color: var(--text-light); font-weight: 400; }
+.nav-links a { margin-left: 20px; font-weight: 500; color: var(--text-dark); font-size: 0.95rem; }
+.nav-links a:hover { color: var(--primary); }
+.btn-nav { background: var(--primary); color: white !important; padding: 8px 20px; border-radius: 50px; }
+
+/* --- 3. Títulos y Secciones --- */
+h1, h2, h3 { color: var(--text-dark); margin-bottom: 15px; }
+.section-title {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.text-center { text-align: center; }
+
+/* --- 4. Catálogo: GRID y CARDS (Lo que faltaba) --- */
+.grid-medicamentos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: var(--accent);
+}
+
+.card-cat {
+    background-color: var(--accent);
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    align-self: flex-start;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.card h3 { font-size: 1.2rem; margin-bottom: 5px; color: var(--text-dark); }
+.card p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 15px; }
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.price { font-size: 1.4rem; font-weight: bold; color: var(--text-dark); }
+
+.btn-add {
+    background-color: var(--white);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-add:hover { background-color: var(--primary); color: var(--white); }
+
+/* --- 5. Formularios y Auth --- */
+.auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+.auth-card { background: var(--white); padding: 40px; border-radius: 15px; box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; }
+.form-group { margin-bottom: 20px; text-align: left; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-dark); }
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid #e9ecef; border-radius: 8px; background: #fdfdfd; transition: 0.3s; }
+input:focus { border-color: var(--primary); outline: none; background: white; }
+
+/* --- 6. Tablas --- */
+.table-container { overflow-x: auto; background: var(--white); border-radius: 12px; box-shadow: var(--shadow); padding: 20px; }
+table { width: 100%; border-collapse: collapse; min-width: 600px; }
+th { background: var(--accent); color: var(--primary-dark); padding: 15px; text-align: left; font-weight: 700; }
+td { padding: 15px; border-bottom: 1px solid #eee; color: var(--text-light); }
+tr:last-child td { border-bottom: none; }
+
+/* --- 7. Botones Generales --- */
+.btn { display: inline-block; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 1rem; text-align: center; }
+.btn-block { display: block; width: 100%; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; font-size: 0.9rem; padding: 8px 15px; }
+.btn-outline { border: 2px solid #ddd; background: white; color: var(--text-light); padding: 5px 10px; font-size: 0.8rem;}
+
+/* --- 8. Estados y Utilidades --- */
+.alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; }
+.alert-error { background: #ffe3e3; color: var(--danger); border: 1px solid #ffc9c9; }
+.mt-20 { margin-top: 20px; }
+
+.badge-status { padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; }
+.status-pendiente { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+.status-aprobado { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.status-rechazado { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.status-entregado { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+.code-box { background: #f8f9fa; border: 2px dashed var(--primary); color: var(--primary-dark); padding: 5px 10px; font-family: 'Courier New', monospace; font-weight: bold; font-size: 1.1rem; display: inline-block; margin-top: 5px; }
