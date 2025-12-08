@@ -25,23 +25,24 @@
                         <td style="font-weight: bold;"><?php echo $p->usuario_nombre; ?></td>
                         <td><?php echo date('d/m/Y H:i', strtotime($p->creado_en)); ?></td>
                         <td>
-                            <button onclick="toggleDetalles(<?php echo $p->id; ?>)" class="btn btn-outline" style="font-size: 0.8rem; padding: 5px 10px;">
-                                📋 Ver Detalles (<?php echo $p->total_medicamentos; ?> items)
-                            </button>
+                                <button onclick="toggleDetalles(<?php echo $p->id; ?>)" class="btn btn-outline" style="font-size: 0.8rem; padding: 8px 15px;">
+                                    <i class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 5px;">visibility</i>
+                                    Ver Detalles (<?php echo $p->total_medicamentos; ?> items)
+                                </button>
                         </td>
                         <td style="font-weight: bold; color: var(--primary);">$<?php echo number_format($p->total_precio, 2); ?></td>
                         <td>
                             <a href="<?php echo BASE_URL; ?>/uploads/<?php echo $p->receta_archivo; ?>" target="_blank" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary); font-size: 0.8rem; padding: 5px 10px;">
-                                👁 Receta
+                                <i class="material-icons" style="font-size: 14px; vertical-align: middle;">visibility</i> Receta
                             </a>
                         </td>
                         <td>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <a href="<?php echo BASE_URL; ?>/hospital/aprobar/<?php echo $p->id; ?>" class="btn btn-success" style="font-size: 0.8rem; padding: 6px 12px;" onclick="return confirm('¿Aprobar y generar código de retiro?');">
-                                    ✔ Aprobar
+                                    <i class="material-icons" style="font-size: 14px; vertical-align: middle;">check</i> Aprobar
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/hospital/rechazar/<?php echo $p->id; ?>" class="btn btn-danger" style="font-size: 0.8rem; padding: 6px 12px;" onclick="return confirm('¿Rechazar solicitud?\n\nEsto restaurará el stock de los medicamentos.');">
-                                    ✖ Rechazar
+                                    <i class="material-icons" style="font-size: 14px; vertical-align: middle;">close</i> Rechazar
                                 </a>
                             </div>
                         </td>
@@ -50,7 +51,10 @@
                     <tr id="detalles-<?php echo $p->id; ?>" style="display: none;">
                         <td colspan="7" style="padding: 0;">
                             <div style="background: #f8f9fa; padding: 20px; border: 2px solid #e9ecef;">
-                                <h4 style="margin: 0 0 15px 0; color: var(--primary-dark);">📋 Detalles del Pedido #<?php echo $p->id; ?></h4>
+                                <h4 style="margin: 0 0 15px 0; color: var(--primary-dark);">
+                                    <i class="material-icons" style="vertical-align: middle; margin-right: 10px;">receipt_long</i>
+                                    Detalles del Pedido #<?php echo $p->id; ?>
+                                </h4>
                                 
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                                     <div>
@@ -62,7 +66,7 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <strong>💊 Total medicamentos:</strong> <?php echo $p->total_medicamentos; ?> unidades<br>
+                                        <strong><i class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 5px;">medication</i>Total medicamentos:</strong> <?php echo $p->total_medicamentos; ?> unidades<br>
                                         <strong>💰 Valor total:</strong> $<?php echo number_format($p->total_precio, 2); ?><br>
                                         <strong>🏥 Estado:</strong> <span style="color: var(--warning); font-weight: bold;">Pendiente validación</span>
                                     </div>
@@ -122,15 +126,15 @@
                                         <a href="<?php echo BASE_URL; ?>/hospital/aprobar/<?php echo $p->id; ?>" 
                                            class="btn btn-success" 
                                            onclick="return confirm('¿Aprobar pedido #<?php echo $p->id; ?> por $<?php echo number_format($p->total_precio, 2); ?>?\n\nSe generará un código de retiro.');">
-                                            ✔ Aprobar Pedido
+                                            <i class="material-icons" style="font-size: 14px; vertical-align: middle;">check</i> Aprobar Pedido
                                         </a>
                                         <a href="<?php echo BASE_URL; ?>/hospital/rechazar/<?php echo $p->id; ?>" 
                                            class="btn btn-danger" 
                                            onclick="return confirm('¿Rechazar pedido #<?php echo $p->id; ?>?\n\nSe restaurará el stock de todos los medicamentos.');">
-                                            ✖ Rechazar Pedido
+                                            <i class="material-icons" style="font-size: 14px; vertical-align: middle;">close</i> Rechazar Pedido
                                         </a>
                                         <button onclick="toggleDetalles(<?php echo $p->id; ?>)" class="btn btn-secondary">
-                                            ⬆️ Ocultar Detalles
+                                            <i class="material-icons" style="font-size: 14px; vertical-align: middle;">keyboard_arrow_up</i> Ocultar Detalles
                                         </button>
                                     </div>
                                 </div>

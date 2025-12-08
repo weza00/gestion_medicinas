@@ -1,7 +1,6 @@
 Options -MultiViews
 RewriteEngine On
 
-RewriteBase /gestion_medicinas/public/
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

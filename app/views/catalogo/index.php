@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Medicamentos - MediPlus</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .btn-disabled {
             background: #ccc !important;
@@ -49,7 +51,8 @@
 
         <?php if(!isset($_SESSION['user_id'])): ?>
             <div class="login-notice">
-                ⚠️ <strong>Para realizar pedidos:</strong> Debe iniciar sesión con una cuenta autorizada por el hospital.
+                <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">warning</i>
+                <strong>Para realizar pedidos:</strong> Debe iniciar sesión con una cuenta autorizada por el hospital.
                 <a href="<?php echo BASE_URL; ?>/auth/login" style="color: var(--primary-dark); font-weight: bold; text-decoration: underline;">Iniciar Sesión</a>
             </div>
         <?php endif; ?>
@@ -71,9 +74,15 @@
                                 </small>
                                 <small style="color: var(--text-light); display:block; margin-bottom:10px;">
                                     <?php if($med->stock > 0): ?>
-                                        <span style="color: var(--success); font-weight: bold;">✓ Disponible (<?php echo $med->stock; ?> unidades)</span>
+                                        <span style="color: var(--success); font-weight: bold;">
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">check_circle</i>
+                                            Disponible (<?php echo $med->stock; ?> unidades)
+                                        </span>
                                     <?php else: ?>
-                                        <span style="color: var(--danger); font-weight: bold;">✗ Sin stock</span>
+                                        <span style="color: var(--danger); font-weight: bold;">
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">cancel</i>
+                                            Sin stock
+                                        </span>
                                     <?php endif; ?>
                                 </small>
                             </div>
@@ -85,6 +94,7 @@
                                     <form action="<?php echo BASE_URL; ?>/carrito/agregar" method="POST">
                                         <input type="hidden" name="id" value="<?php echo $med->id; ?>">
                                         <button type="submit" class="btn-add">
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 5px;">add_shopping_cart</i>
                                             Agregar +
                                         </button>
                                     </form>

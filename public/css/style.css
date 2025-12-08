@@ -139,3 +139,119 @@ tr:last-child td { border-bottom: none; }
 .status-entregado { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
 
 .code-box { background: #f8f9fa; border: 2px dashed var(--primary); color: var(--primary-dark); padding: 5px 10px; font-family: 'Courier New', monospace; font-weight: bold; font-size: 1.1rem; display: inline-block; margin-top: 5px; }
+
+/* --- 9. Material Icons Customization --- */
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Tamaños específicos para diferentes contextos */
+.material-icons.small { font-size: 18px; }
+.material-icons.medium { font-size: 24px; }
+.material-icons.large { font-size: 36px; }
+
+/* Iconos en botones */
+.btn .material-icons {
+    font-size: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Iconos en navegación */
+.nav-link .material-icons {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* Iconos en encabezados */
+h1 .material-icons, h2 .material-icons, h3 .material-icons {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* Iconos de estado */
+.material-icons.success { color: var(--success); }
+.material-icons.danger { color: var(--danger); }
+.material-icons.warning { color: var(--warning); }
+.material-icons.primary { color: var(--primary); }
+
+/* Mejoras visuales para tarjetas */
+.feature-card .icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Mejoras para formularios con iconos */
+.form-group label .material-icons {
+    font-size: 18px;
+    color: var(--primary);
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Rol badges con iconos */
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.role-badge.role-admin {
+    background: #e8d5ff;
+    color: #6f42c1;
+}
+
+.role-badge.role-validador {
+    background: #d4edda;
+    color: #28a745;
+}
+
+.role-badge.role-farmaceutico {
+    background: #d1ecf1;
+    color: #17a2b8;
+}
+
+.role-badge.role-paciente {
+    background: #e7f1ff;
+    color: var(--primary-dark);
+}
+
+/* Status badges para estado de usuarios */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-badge.status-activo {
+    background: #d4edda;
+    color: #28a745;
+}
+
+.status-badge.status-inactivo {
+    background: #f8d7da;
+    color: #721c24;
+}

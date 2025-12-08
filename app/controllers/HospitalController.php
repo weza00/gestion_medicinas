@@ -153,7 +153,7 @@ class HospitalController extends Controller {
 
         // Obtener todos los usuarios del sistema
         $db = new Database();
-        $db->query("SELECT id, nombre, email, rol, creado_en FROM usuarios ORDER BY creado_en DESC");
+        $db->query("SELECT id, nombre, dni, email, rol, estado, creado_en FROM usuarios ORDER BY creado_en DESC");
         $usuarios = $db->registers();
 
         $datos = [
@@ -175,12 +175,29 @@ class HospitalController extends Controller {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $nombre = trim($_POST['nombre']);
+            $dni = trim($_POST['dni']);
             $email = trim($_POST['email']);
             $password = trim($_POST['password']);
             $rol = trim($_POST['rol']);
 
-            // Validar que el email no exista
+            // Validar cédula ecuatoriana
+            if (!$this->usuarioModelo->validarCedulaEcuatoriana($dni)) {
+                echo "<script>alert('Error: La cédula ingresada no es válida'); window.history.back();</script>";
+                return;
+            }
+
+            // Validar que el DNI no exista
             $db = new Database();
+            $db->query("SELECT id FROM usuarios WHERE dni = :dni");
+            $db->bind(':dni', $dni);
+            $existeDNI = $db->register();
+
+            if ($existeDNI) {
+                echo "<script>alert('Error: La cédula ya está registrada'); window.history.back();</script>";
+                return;
+            }
+
+            // Validar que el email no exista
             $db->query("SELECT id FROM usuarios WHERE email = :email");
             $db->bind(':email', $email);
             $existeEmail = $db->register();
@@ -192,14 +209,15 @@ class HospitalController extends Controller {
 
             // Crear usuario
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            $db->query('INSERT INTO usuarios (nombre, email, password, rol, creado_en) VALUES (:nombre, :email, :password, :rol, NOW())');
+            $db->query('INSERT INTO usuarios (nombre, dni, email, password, rol, creado_en) VALUES (:nombre, :dni, :email, :password, :rol, NOW())');
             $db->bind(':nombre', $nombre);
+            $db->bind(':dni', $dni);
             $db->bind(':email', $email);
             $db->bind(':password', $password_hash);
             $db->bind(':rol', $rol);
 
             if ($db->execute()) {
-                $this->logModelo->registrar($_SESSION['user_id'], "Usuario creado: $nombre ($rol) - $email");
+                $this->logModelo->registrar($_SESSION['user_id'], "Usuario creado: $nombre ($rol) - DNI: $dni");
                 echo "<script>alert('Usuario creado exitosamente'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
             } else {
                 echo "<script>alert('Error al crear usuario'); window.history.back();</script>";
@@ -214,6 +232,158 @@ class HospitalController extends Controller {
 
             $contenido = $this->renderCrearUsuarioContent($datos);
             $this->renderLayout($contenido, $datos);
+        }
+    }
+
+    // Editar usuario - Solo admin
+    public function editar_usuario($id = null) {
+        if ($_SESSION['user_rol'] != 'admin') {
+            die('Acceso denegado.');
+        }
+
+        if (!$id) {
+            header('location: ' . BASE_URL . '/hospital/usuarios');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $nombre = trim($_POST['nombre']);
+            $dni = trim($_POST['dni']);
+            $email = trim($_POST['email']);
+            $rol = trim($_POST['rol']);
+
+            // Validar cédula ecuatoriana
+            if (!$this->usuarioModelo->validarCedulaEcuatoriana($dni)) {
+                echo "<script>alert('Error: La cédula ingresada no es válida'); window.history.back();</script>";
+                return;
+            }
+
+            // Validar que el DNI no exista en otro usuario
+            $db = new Database();
+            $db->query("SELECT id FROM usuarios WHERE dni = :dni AND id != :id");
+            $db->bind(':dni', $dni);
+            $db->bind(':id', $id);
+            $existeDNI = $db->register();
+
+            if ($existeDNI) {
+                echo "<script>alert('Error: La cédula ya está registrada en otro usuario'); window.history.back();</script>";
+                return;
+            }
+
+            // Validar que el email no exista en otro usuario
+            $db->query("SELECT id FROM usuarios WHERE email = :email AND id != :id");
+            $db->bind(':email', $email);
+            $db->bind(':id', $id);
+            $existeEmail = $db->register();
+
+            if ($existeEmail) {
+                echo "<script>alert('Error: El email ya está registrado en otro usuario'); window.history.back();</script>";
+                return;
+            }
+
+            // Actualizar usuario
+            $db->query('UPDATE usuarios SET nombre = :nombre, dni = :dni, email = :email, rol = :rol WHERE id = :id');
+            $db->bind(':nombre', $nombre);
+            $db->bind(':dni', $dni);
+            $db->bind(':email', $email);
+            $db->bind(':rol', $rol);
+            $db->bind(':id', $id);
+
+            if ($db->execute()) {
+                $this->logModelo->registrar($_SESSION['user_id'], "Usuario editado: $nombre ($rol) - DNI: $dni - ID: $id");
+                echo "<script>alert('Usuario actualizado exitosamente'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+            } else {
+                echo "<script>alert('Error al actualizar usuario'); window.history.back();</script>";
+            }
+        } else {
+            // Obtener datos del usuario
+            $db = new Database();
+            $db->query("SELECT * FROM usuarios WHERE id = :id");
+            $db->bind(':id', $id);
+            $usuario = $db->register();
+
+            if (!$usuario) {
+                header('location: ' . BASE_URL . '/hospital/usuarios');
+                exit();
+            }
+
+            $datos = [
+                'titulo' => 'Editar Usuario',
+                'titulo_pagina' => 'Editar Usuario',
+                'seccion' => 'usuarios',
+                'usuario' => $usuario
+            ];
+
+            $contenido = $this->renderEditarUsuarioContent($datos);
+            $this->renderLayout($contenido, $datos);
+        }
+    }
+
+    // Desactivar usuario - Solo admin
+    public function desactivar_usuario($id = null) {
+        if ($_SESSION['user_rol'] != 'admin') {
+            die('Acceso denegado.');
+        }
+
+        if (!$id || $id == $_SESSION['user_id']) {
+            header('location: ' . BASE_URL . '/hospital/usuarios');
+            exit();
+        }
+
+        // Obtener datos del usuario antes de desactivar
+        $db = new Database();
+        $db->query("SELECT nombre, dni, email, rol FROM usuarios WHERE id = :id AND estado = 1");
+        $db->bind(':id', $id);
+        $usuario = $db->register();
+
+        if (!$usuario) {
+            echo "<script>alert('Usuario no encontrado o ya está inactivo'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+            return;
+        }
+
+        // Desactivar usuario (cambiar estado a 0)
+        $db->query('UPDATE usuarios SET estado = 0 WHERE id = :id');
+        $db->bind(':id', $id);
+
+        if ($db->execute()) {
+            $this->logModelo->registrar($_SESSION['user_id'], "Usuario desactivado: {$usuario->nombre} ({$usuario->rol}) - DNI: {$usuario->dni} - ID: $id");
+            echo "<script>alert('Usuario desactivado exitosamente'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+        } else {
+            echo "<script>alert('Error al desactivar usuario'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+        }
+    }
+
+    // Activar usuario - Solo admin
+    public function activar_usuario($id = null) {
+        if ($_SESSION['user_rol'] != 'admin') {
+            die('Acceso denegado.');
+        }
+
+        if (!$id || $id == $_SESSION['user_id']) {
+            header('location: ' . BASE_URL . '/hospital/usuarios');
+            exit();
+        }
+
+        // Obtener datos del usuario antes de activar
+        $db = new Database();
+        $db->query("SELECT nombre, dni, email, rol FROM usuarios WHERE id = :id AND estado = 0");
+        $db->bind(':id', $id);
+        $usuario = $db->register();
+
+        if (!$usuario) {
+            echo "<script>alert('Usuario no encontrado o ya está activo'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+            return;
+        }
+
+        // Activar usuario (cambiar estado a 1)
+        $db->query('UPDATE usuarios SET estado = 1 WHERE id = :id');
+        $db->bind(':id', $id);
+
+        if ($db->execute()) {
+            $this->logModelo->registrar($_SESSION['user_id'], "Usuario activado: {$usuario->nombre} ({$usuario->rol}) - DNI: {$usuario->dni} - ID: $id");
+            echo "<script>alert('Usuario activado exitosamente'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+        } else {
+            echo "<script>alert('Error al activar usuario'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
         }
     }
 
@@ -375,6 +545,13 @@ class HospitalController extends Controller {
     private function renderCrearUsuarioContent($datos) {
         ob_start();
         require_once '../app/views/hospital/crear_usuario.php';
+        return ob_get_clean();
+    }
+
+    // Renderizar contenido de editar usuario
+    private function renderEditarUsuarioContent($datos) {
+        ob_start();
+        require_once '../app/views/hospital/editar_usuario.php';
         return ob_get_clean();
     }
 

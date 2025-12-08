@@ -17,11 +17,14 @@ USE `gestion_medicinas`;
 CREATE TABLE `usuarios` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`nombre` VARCHAR(100) NOT NULL,
+	`dni` VARCHAR(10) NOT NULL COMMENT 'Cédula de identidad ecuatoriana',
 	`email` VARCHAR(150) NOT NULL,
 	`password` VARCHAR(255) NOT NULL,
 	`rol` ENUM('paciente','validador','farmaceutico','admin') NOT NULL DEFAULT 'paciente',
+	`estado` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1=activo, 0=inactivo',
 	`creado_en` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
+	UNIQUE KEY `uk_usuarios_dni` (`dni`),
 	UNIQUE KEY `uk_usuarios_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

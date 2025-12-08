@@ -1,42 +1,45 @@
 <div style="max-width: 600px; margin: 0 auto;">
     <div class="card" style="padding: 30px;">
         <h2 style="margin-top: 0; color: var(--primary-dark);">
-            <i class="material-icons" style="vertical-align: middle; margin-right: 10px;">person_add</i>Crear Nuevo Usuario
+            <i class="material-icons" style="vertical-align: middle; margin-right: 10px;">edit</i>Editar Usuario
         </h2>
-        <p style="color: var(--text-light); margin-bottom: 30px;">Complete la información para crear una nueva cuenta de usuario.</p>
+        <p style="color: var(--text-light); margin-bottom: 30px;">Modifique la información del usuario.</p>
         
-        <form action="<?php echo BASE_URL; ?>/hospital/crear_usuario" method="POST" onsubmit="return validarFormulario()">
+        <form action="<?php echo BASE_URL; ?>/hospital/editar_usuario/<?php echo $datos['usuario']->id; ?>" method="POST" onsubmit="return validarFormulario()">
             
             <div class="form-group">
                 <label><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">person</i>Nombre Completo</label>
-                <input type="text" name="nombre" placeholder="Ej: Juan Pérez" required>
+                <input type="text" name="nombre" value="<?php echo htmlspecialchars($datos['usuario']->nombre); ?>" placeholder="Ej: Juan Pérez" required>
             </div>
 
             <div class="form-group">
                 <label><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">badge</i>Cédula de Identidad</label>
-                <input type="text" name="dni" id="dni" placeholder="1234567890" maxlength="10" pattern="[0-9]{10}" required>
+                <input type="text" name="dni" id="dni" value="<?php echo htmlspecialchars($datos['usuario']->dni); ?>" placeholder="1234567890" maxlength="10" pattern="[0-9]{10}" required>
                 <small style="color: #666; font-size: 0.85rem;">Cédula ecuatoriana de 10 dígitos</small>
                 <div id="dni-error" style="color: #dc3545; font-size: 0.85rem; margin-top: 5px; display: none;"></div>
             </div>
 
             <div class="form-group">
                 <label><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">email</i>Correo Electrónico</label>
-                <input type="email" name="email" placeholder="ejemplo@correo.com" required>
-            </div>
-
-            <div class="form-group">
-                <label><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">lock</i>Contraseña</label>
-                <input type="password" name="password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                <input type="email" name="email" value="<?php echo htmlspecialchars($datos['usuario']->email); ?>" placeholder="ejemplo@correo.com" required>
             </div>
 
             <div class="form-group">
                 <label><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">admin_panel_settings</i>Rol del Usuario</label>
                 <select name="rol" required>
                     <option value="">Seleccione un rol...</option>
-                    <option value="paciente">Paciente</option>
-                    <option value="validador">Validador</option>
-                    <option value="farmaceutico">Farmacéutico</option>
-                    <option value="admin">Administrador</option>
+                    <option value="paciente" <?php echo ($datos['usuario']->rol == 'paciente') ? 'selected' : ''; ?>>
+                        <i class="material-icons">local_hospital</i> Paciente
+                    </option>
+                    <option value="validador" <?php echo ($datos['usuario']->rol == 'validador') ? 'selected' : ''; ?>>
+                        <i class="material-icons">verified_user</i> Validador
+                    </option>
+                    <option value="farmaceutico" <?php echo ($datos['usuario']->rol == 'farmaceutico') ? 'selected' : ''; ?>>
+                        <i class="material-icons">medication</i> Farmacéutico
+                    </option>
+                    <option value="admin" <?php echo ($datos['usuario']->rol == 'admin') ? 'selected' : ''; ?>>
+                        <i class="material-icons">admin_panel_settings</i> Administrador
+                    </option>
                 </select>
             </div>
 
@@ -45,7 +48,7 @@
                     <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">arrow_back</i> Cancelar
                 </a>
                 <button type="submit" class="btn btn-success">
-                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">person_add</i> Crear Usuario
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">save</i> Actualizar Usuario
                 </button>
             </div>
         </form>

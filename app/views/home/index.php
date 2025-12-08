@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>MediPlus - Farmacia Hospitalaria</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         /* Estilos específicos del Home */
         .hero {
@@ -85,12 +87,14 @@
         <div class="nav-links">
             <?php if(isset($_SESSION['user_id'])): ?>
                 <?php if($_SESSION['user_rol'] == 'paciente'): ?>
-                    <a href="<?php echo BASE_URL; ?>/pedido/mis_pedidos">Mis Pedidos</a>
-                    <a href="<?php echo BASE_URL; ?>/carrito">Carrito <span style="background:var(--primary); color:white; padding:2px 6px; border-radius:10px; font-size:0.8em;"><?php echo isset($_SESSION['carrito']) ? array_sum($_SESSION['carrito']) : 0; ?></span></a>
+                    <a href="<?php echo BASE_URL; ?>/pedido/mis_pedidos"><i class="material-icons">receipt</i> Mis Pedidos</a>
+                    <a href="<?php echo BASE_URL; ?>/carrito"><i class="material-icons">shopping_cart</i> Carrito <span style="background:var(--primary); color:white; padding:2px 6px; border-radius:10px; font-size:0.8em;"><?php echo isset($_SESSION['carrito']) ? array_sum($_SESSION['carrito']) : 0; ?></span></a>
+                <?php else: ?>
+                    <a href="<?php echo BASE_URL; ?>/hospital/inicio" class="btn-nav"><i class="material-icons">dashboard</i> Volver al Panel</a>
                 <?php endif; ?>
-                <a href="<?php echo BASE_URL; ?>/auth/logout" style="color: var(--danger);">Salir</a>
+                <a href="<?php echo BASE_URL; ?>/auth/logout" style="color: var(--danger);"><i class="material-icons">logout</i> Salir</a>
             <?php else: ?>
-                <a href="<?php echo BASE_URL; ?>/auth/login" class="btn-nav">Ingresar</a>
+                <a href="<?php echo BASE_URL; ?>/auth/login" class="btn-nav"><i class="material-icons">login</i> Ingresar</a>
             <?php endif; ?>
         </div>
     </nav>
@@ -102,17 +106,17 @@
 
     <section class="features">
         <div class="feature-card">
-            <span class="icon">💊</span>
+            <i class="material-icons icon">medication</i>
             <h3>Catálogo Completo</h3>
             <p>Consulta todos los medicamentos disponibles en stock en tiempo real.</p>
         </div>
         <div class="feature-card">
-            <span class="icon">📄</span>
+            <i class="material-icons icon">receipt</i>
             <h3>Pedidos con Receta</h3>
             <p>Los pacientes autorizados pueden subir su receta médica para validación.</p>
         </div>
         <div class="feature-card">
-            <span class="icon">🏥</span>
+            <i class="material-icons icon">local_hospital</i>
             <h3>Retiro Seguro</h3>
             <p>Sistema de códigos únicos para retiro controlado de medicamentos.</p>
         </div>
@@ -127,7 +131,9 @@
 
         <!-- Búsqueda y Filtros -->
         <div class="search-section">
-            <h3 style="margin-top: 0; color: var(--primary-dark);">Buscar Medicamentos</h3>
+            <h3 style="margin-top: 0; color: var(--primary-dark);">
+                <i class="material-icons" style="vertical-align: middle; margin-right: 10px;">search</i>Buscar Medicamentos
+            </h3>
             <div class="search-filters">
                 <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre de medicamento...">
                 <select id="categoryFilter" class="filter-select">
@@ -136,13 +142,16 @@
                         <option value="<?php echo $categoria; ?>"><?php echo $categoria; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <button type="button" class="search-btn" onclick="filtrarMedicamentos()">🔍 Buscar</button>
+                <button type="button" class="search-btn" onclick="filtrarMedicamentos()">
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">search</i> Buscar
+                </button>
             </div>
         </div>
 
         <?php if(!isset($_SESSION['user_id'])): ?>
             <div class="login-notice">
-                ⚠️ <strong>Aviso:</strong> Para realizar pedidos debe iniciar sesión con una cuenta autorizada por el hospital.
+                <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">warning</i>
+                <strong>Aviso:</strong> Para realizar pedidos debe iniciar sesión con una cuenta autorizada por el hospital.
             </div>
         <?php endif; ?>
 
@@ -164,9 +173,15 @@
                                 </small>
                                 <small style="color: var(--text-light); display:block; margin-bottom:10px;">
                                     <?php if($med->stock > 0): ?>
-                                        <span style="color: var(--success); font-weight: bold;">✓ Disponible (<?php echo $med->stock; ?> unidades)</span>
+                                        <span style="color: var(--success); font-weight: bold;">
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">check_circle</i>
+                                            Disponible (<?php echo $med->stock; ?> unidades)
+                                        </span>
                                     <?php else: ?>
-                                        <span style="color: var(--danger); font-weight: bold;">✗ Sin stock</span>
+                                        <span style="color: var(--danger); font-weight: bold;">
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">cancel</i>
+                                            Sin stock
+                                        </span>
                                     <?php endif; ?>
                                 </small>
                             </div>
@@ -178,12 +193,19 @@
                                     <form action="<?php echo BASE_URL; ?>/carrito/agregar" method="POST">
                                         <input type="hidden" name="id" value="<?php echo $med->id; ?>">
                                         <button type="submit" class="btn-add">
-                                            Agregar +
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">add_shopping_cart</i>
+                                            Agregar
                                         </button>
                                     </form>
                                 <?php else: ?>
                                     <button class="btn-add btn-disabled" title="<?php echo !isset($_SESSION['user_id']) ? 'Inicie sesión para comprar' : ($med->stock == 0 ? 'Sin stock disponible' : 'No autorizado'); ?>">
-                                        <?php echo $med->stock > 0 ? 'Agregar +' : 'Sin Stock'; ?>
+                                        <?php if($med->stock > 0): ?>
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">add_shopping_cart</i>
+                                            Agregar
+                                        <?php else: ?>
+                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">block</i>
+                                            Sin Stock
+                                        <?php endif; ?>
                                     </button>
                                 <?php endif; ?>
                             </div>

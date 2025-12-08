@@ -100,10 +100,10 @@
                 <label for="estado">Estado *</label>
                 <select id="estado" name="estado" required class="form-control">
                     <option value="1" <?php echo ($datos['medicamento']->estado == 1) ? 'selected' : ''; ?>>
-                        ✅ Activo - Visible en catálogo
+                        Activo - Visible en catálogo
                     </option>
                     <option value="0" <?php echo ($datos['medicamento']->estado == 0) ? 'selected' : ''; ?>>
-                        ❌ Inactivo - Oculto del catálogo
+                        Inactivo - Oculto del catálogo
                     </option>
                 </select>
                 <small class="form-text">Controla la visibilidad del medicamento en el catálogo público.</small>
@@ -111,7 +111,7 @@
         </div>
 
         <div class="info-box">
-            <strong>📋 Información del Medicamento:</strong><br>
+            <strong><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">info</i>Información del Medicamento:</strong><br>
             <small>
                 ID: <?php echo $datos['medicamento']->id; ?> | 
                 Creado: <?php echo isset($datos['medicamento']->created_at) ? date('d/m/Y H:i', strtotime($datos['medicamento']->created_at)) : 'N/A'; ?>
@@ -119,7 +119,9 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn">💾 Actualizar Medicamento</button>
+            <button type="submit" class="btn">
+                <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">save</i> Actualizar Medicamento
+            </button>
             <a href="<?php echo BASE_URL; ?>/hospital/medicamentos" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>

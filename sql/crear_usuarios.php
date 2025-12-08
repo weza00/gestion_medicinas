@@ -19,58 +19,72 @@ try {
     
     // VALIDADOR
     echo "1. Creando Validador...\n";
-    $db->query('INSERT INTO usuarios (nombre, email, password, rol, creado_en) VALUES (:nombre, :email, :password, :rol, NOW())');
+    $db->query('INSERT INTO usuarios (nombre, dni, email, password, rol, estado, creado_en) VALUES (:nombre, :dni, :email, :password, :rol, :estado, NOW())');
     $db->bind(':nombre', 'Dr. María Fernández');
+    $db->bind(':dni', '1712345678'); // Cédula ecuatoriana válida
     $db->bind(':email', 'validador@hospital.com');
     $db->bind(':password', $password_hash);
     $db->bind(':rol', 'validador');
+    $db->bind(':estado', 1); // Activo
     
     if ($db->execute()) {
-        echo "   ✓ Validador creado exitosamente\n";
+        echo "   [OK] Validador creado exitosamente\n";
     } else {
-        echo "   ✗ Error al crear validador\n";
+        echo "   [ERROR] Error al crear validador\n";
     }
     
     // FARMACÉUTICO
     echo "2. Creando Farmacéutico...\n";
-    $db->query('INSERT INTO usuarios (nombre, email, password, rol, creado_en) VALUES (:nombre, :email, :password, :rol, NOW())');
+    $db->query('INSERT INTO usuarios (nombre, dni, email, password, rol, estado, creado_en) VALUES (:nombre, :dni, :email, :password, :rol, :estado, NOW())');
     $db->bind(':nombre', 'Farm. Carlos Ruiz');
+    $db->bind(':dni', '0912345679'); // Cédula ecuatoriana válida
     $db->bind(':email', 'farmaceutico@hospital.com');
     $db->bind(':password', $password_hash);
     $db->bind(':rol', 'farmaceutico');
+    $db->bind(':estado', 1); // Activo
     
     if ($db->execute()) {
-        echo "   ✓ Farmacéutico creado exitosamente\n";
+        echo "   [OK] Farmacéutico creado exitosamente\n";
     } else {
-        echo "   ✗ Error al crear farmacéutico\n";
+        echo "   [ERROR] Error al crear farmacéutico\n";
     }
     
     // ADMINISTRADOR
     echo "3. Creando Administrador...\n";
-    $db->query('INSERT INTO usuarios (nombre, email, password, rol, creado_en) VALUES (:nombre, :email, :password, :rol, NOW())');
+    $db->query('INSERT INTO usuarios (nombre, dni, email, password, rol, estado, creado_en) VALUES (:nombre, :dni, :email, :password, :rol, :estado, NOW())');
+    $db->bind(':nombre', 'Administrador Sistema');
+    $db->bind(':dni', '1712345680'); // Cédula ecuatoriana válida
+    $db->bind(':email', 'admin@hospital.com');
+    $db->bind(':password', $password_hash);
+    $db->bind(':rol', 'admin');
+    $db->bind(':estado', 1); // Activo
     $db->bind(':nombre', 'Administrador Sistema');
     $db->bind(':email', 'admin@hospital.com');
     $db->bind(':password', $password_hash);
     $db->bind(':rol', 'admin');
     
     if ($db->execute()) {
-        echo "   ✓ Administrador creado exitosamente\n";
+        echo "   [OK] Administrador creado exitosamente\n";
     } else {
-        echo "   ✗ Error al crear administrador\n";
+        echo "   [ERROR] Error al crear administrador\n";
     }
     
     echo "\n=== USUARIOS CREADOS ===\n";
-    echo "VALIDADOR     - Email: validador@hospital.com    - Pass: $password_comun\n";
-    echo "FARMACÉUTICO  - Email: farmaceutico@hospital.com - Pass: $password_comun\n";
-    echo "ADMINISTRADOR - Email: admin@hospital.com        - Pass: $password_comun\n";
+    echo "VALIDADOR     - DNI: 1712345678 - Email: validador@hospital.com    - Pass: $password_comun\n";
+    echo "FARMACÉUTICO  - DNI: 0912345679 - Email: farmaceutico@hospital.com - Pass: $password_comun\n";
+    echo "ADMINISTRADOR - DNI: 1712345680 - Email: admin@hospital.com        - Pass: $password_comun\n";
+    echo "\n=== NOTA IMPORTANTE ===\n";
+    echo "El sistema ahora usa DNI como método principal de autenticación.\n";
+    echo "Para iniciar sesión usar: DNI + Contraseña\n";
     echo "\n=== VERIFICACIÓN ===\n";
     
     // Verificar usuarios creados
-    $db->query("SELECT id, nombre, email, rol, creado_en FROM usuarios WHERE rol IN ('validador', 'farmaceutico', 'admin') ORDER BY id");
+    $db->query("SELECT id, nombre, dni, email, rol, estado, creado_en FROM usuarios WHERE rol IN ('validador', 'farmaceutico', 'admin') ORDER BY id");
     $usuarios = $db->registers();
     
     foreach ($usuarios as $usuario) {
-        echo "ID: {$usuario->id} | {$usuario->nombre} | {$usuario->email} | {$usuario->rol} | {$usuario->creado_en}\n";
+        $estadoTexto = $usuario->estado ? 'Activo' : 'Inactivo';
+        echo "ID: {$usuario->id} | {$usuario->nombre} | DNI: {$usuario->dni} | {$usuario->email} | {$usuario->rol} | Estado: $estadoTexto | {$usuario->creado_en}\n";
     }
     
 } catch (Exception $e) {

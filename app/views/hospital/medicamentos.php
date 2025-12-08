@@ -2,7 +2,7 @@
     <h2 style="margin: 0;">Inventario de Medicamentos</h2>
     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <a href="<?php echo BASE_URL; ?>/hospital/categorias" class="btn" style="background: var(--warning); color: white;">
-            🏷️ Gestionar Categorías
+            <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">category</i> Gestionar Categorías
         </a>
         <a href="<?php echo BASE_URL; ?>/hospital/crear_medicamento" class="btn btn-success">
             + Nuevo Medicamento
@@ -71,7 +71,7 @@
 
 <?php if(empty($datos['medicamentos'])): ?>
     <div style="text-align: center; padding: 50px; background: white; border-radius: 12px; box-shadow: var(--shadow);">
-        <div style="font-size: 3rem;">📦</div>
+        <i class="material-icons" style="font-size: 4rem; color: var(--primary); margin-bottom: 15px;">medication</i>
         <h3>No hay medicamentos registrados</h3>
         <p>Comience agregando medicamentos al inventario.</p>
         <a href="<?php echo BASE_URL; ?>/hospital/crear_medicamento" class="btn btn-success">+ Agregar Primer Medicamento</a>

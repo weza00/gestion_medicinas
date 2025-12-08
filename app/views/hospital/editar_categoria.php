@@ -31,12 +31,14 @@
         </div>
 
         <div class="info-box">
-            <strong>📋 Información de la Categoría:</strong><br>
+            <strong><i class="material-icons" style="vertical-align: middle; margin-right: 5px;">info</i>Información de la Categoría:</strong><br>
             <small>ID: <?php echo $datos['categoria']->id; ?></small>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn">💾 Actualizar Categoría</button>
+            <button type="submit" class="btn">
+                <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">save</i> Actualizar Categoría
+            </button>
             <a href="<?php echo BASE_URL; ?>/hospital/categorias" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>

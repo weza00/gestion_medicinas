@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-    <div class="icon">✅</div>
+    <i class="material-icons" style="font-size: 4rem; color: var(--success); margin-bottom: 15px;">check_circle</i>
     <h1>¡Pedido Enviado con Éxito!</h1>
     <p>Hemos recibido su solicitud y su receta médica.</p>
     <p>Un <strong>Validador</strong> revisará su receta en breve.</p>

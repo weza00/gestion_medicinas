@@ -19,14 +19,15 @@ class AuthController extends Controller {
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = trim($_POST['email']);
+            $dni = trim($_POST['dni']);
             $password = trim($_POST['password']);
 
-            $usuarioLogueado = $this->usuarioModelo->login($email, $password);
+            $usuarioLogueado = $this->usuarioModelo->login($dni, $password);
 
             if ($usuarioLogueado) {
                 // Crear Sesión
                 $_SESSION['user_id'] = $usuarioLogueado->id;
+                $_SESSION['user_dni'] = $usuarioLogueado->dni;
                 $_SESSION['user_email'] = $usuarioLogueado->email;
                 $_SESSION['user_nombre'] = $usuarioLogueado->nombre;
                 $_SESSION['user_rol'] = $usuarioLogueado->rol;
@@ -45,7 +46,7 @@ class AuthController extends Controller {
                 // -----------------------------------------
 
             } else {
-                $datos = ['error' => 'Email o contraseña incorrectos'];
+                $datos = ['error' => 'DNI o contraseña incorrectos'];
                 $this->view('auth/login', $datos);
             }
         } else {

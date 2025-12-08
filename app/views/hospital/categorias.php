@@ -29,11 +29,11 @@
                             <td>
                                 <div class="actions">
                                     <a href="<?php echo BASE_URL; ?>/hospital/editar_categoria/<?php echo $categoria->id; ?>" class="btn btn-small" style="background: var(--warning);">
-                                        ✏️ Editar
+                                        <i class="material-icons" style="font-size: 14px; vertical-align: middle;">edit</i> Editar
                                     </a>
                                     <button onclick="confirmarEliminar(<?php echo $categoria->id; ?>, '<?php echo addslashes($categoria->nombre); ?>')" 
                                             class="btn btn-small" style="background: var(--danger);">
-                                        🗑️ Eliminar
+                                        <i class="material-icons" style="font-size: 14px; vertical-align: middle;">delete</i> Eliminar
                                     </button>
                                 </div>
                             </td>

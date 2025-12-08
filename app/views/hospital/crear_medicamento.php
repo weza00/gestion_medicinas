@@ -94,13 +94,16 @@
             <div class="form-group">
                 <label for="estado_info">Estado</label>
                 <div class="estado-info">
-                    ✅ <strong>Activo</strong> - El medicamento se creará como activo y disponible en el catálogo.
+                    <i class="material-icons" style="color: var(--success); vertical-align: middle; margin-right: 5px;">check_circle</i>
+                    <strong>Activo</strong> - El medicamento se creará como activo y disponible en el catálogo.
                 </div>
             </div>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn">💾 Crear Medicamento</button>
+            <button type="submit" class="btn">
+                <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">save</i> Crear Medicamento
+            </button>
             <a href="<?php echo BASE_URL; ?>/hospital/medicamentos" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>

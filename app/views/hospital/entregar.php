@@ -20,7 +20,7 @@
     <div class="auth-card" style="max-width: 800px; margin: 30px auto; border-top: 5px solid var(--success);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2 style="color: var(--success); margin: 0;">Pedido Listo para Entrega</h2>
-            <span style="font-size: 2rem;">💊</span>
+            <i class="material-icons" style="font-size: 3rem; color: var(--primary);">local_pharmacy</i>
         </div>
         
         <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #ccc;">

@@ -30,7 +30,9 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn">💾 Crear Categoría</button>
+            <button type="submit" class="btn">
+                <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">save</i> Crear Categoría
+            </button>
             <a href="<?php echo BASE_URL; ?>/hospital/categorias" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>

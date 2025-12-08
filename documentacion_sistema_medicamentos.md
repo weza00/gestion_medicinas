@@ -139,10 +139,14 @@ A continuación se define la estructura recomendada de tablas.
 |-------|------|-------------|
 | id | INT PK AI | Identificador único |
 | nombre | VARCHAR(100) | Nombre del usuario |
+| dni | VARCHAR(10) | Cédula de identidad ecuatoriana (UNIQUE) |
 | email | VARCHAR(150) | Correo único |
 | password | VARCHAR(255) | Contraseña en hash |
 | rol | ENUM('paciente','validador','farmaceutico','admin') | Rol del usuario |
+| estado | TINYINT(1) | Estado del usuario (1=activo, 0=inactivo) |
 | creado_en | DATETIME | Fecha de registro |
+
+**Nota importante sobre autenticación:** El sistema utiliza **DNI (cédula de identidad)** como método principal de autenticación en lugar del email, proporcionando mayor seguridad y facilidad de uso para el entorno hospitalario ecuatoriano. Todos los DNIs son validados usando el algoritmo oficial de verificación de cédulas ecuatorianas.
 
 ---
 
@@ -246,7 +250,7 @@ Todas las acciones importantes quedan registradas automáticamente:
 ### 6.1. **Rutas Públicas (Sin autenticación)**
 - `/home` - Página principal con catálogo público y búsqueda
 - `/catalogo` - Vista completa del catálogo (solo lectura sin login)
-- `/auth/login` - Inicio de sesión para usuarios autorizados
+- `/auth/login` - Inicio de sesión con **DNI y contraseña** para usuarios autorizados
 
 ### 6.2. **Rutas de Pacientes Autorizados**
 - `/carrito` - Carrito de compras
@@ -271,9 +275,11 @@ Todas las acciones importantes quedan registradas automáticamente:
 
 ### 6.4. **Políticas de Acceso**
 - **Navegación pública**: Catálogo visible sin restricciones
+- **Autenticación segura**: Sistema basado en **DNI (cédula ecuatoriana) y contraseña**
 - **Compras**: Requieren cuenta autorizada por administrador
 - **Auto-registro**: **DESHABILITADO** - Solo admins crean cuentas
 - **Panel hospitalario**: Acceso basado en roles específicos
+- **Validación de identidad**: Todos los DNIs son validados con algoritmo ecuatoriano oficial
 
 ---
 
@@ -437,9 +443,48 @@ Sistema completo de gestión de categorías:
   - Gestión de usuarios y categorías
 - **Vista de logs** filtrable para administradores
 
+### 9.6. **Iconografía y Diseño de Interfaz**
+- **Material Icons**: Sistema completo de iconografía basado en Google Material Icons
+- **Eliminación de emojis**: Interfaz profesional sin emojis en botones o elementos de UI
+- **Consistencia visual**: Iconos uniformes en toda la aplicación
+- **Encabezados de tabla limpios**: Sin iconos en headers de tablas para mayor claridad
+- **Badges de estado**: Sistema visual para estados de usuarios y medicamentos
+
+### 9.7. **Gestión de Estado de Usuarios**
+- **Campo estado**: Control granular de usuarios activos/inactivos
+- **Autenticación segura**: Solo usuarios activos pueden iniciar sesión
+- **Activación/Desactivación**: Funciones administrativas para gestionar acceso
+- **Badges visuales**: Indicadores claros del estado actual del usuario
+- **Trazabilidad**: Registro completo de cambios de estado en logs
+
 ---
 
-## 9. Características Técnicas Implementadas
+## 10. Características Técnicas Implementadas
+
+### 9.0. **Sistema de Autenticación y Validación de Cédulas**
+El sistema implementa un robusto sistema de autenticación basado en **DNI (cédula ecuatoriana)** que proporciona mayor seguridad y facilidad de uso específicamente para el entorno hospitalario ecuatoriano.
+
+#### **Características del Sistema de DNI:**
+- **Autenticación principal**: Los usuarios ingresan con DNI y contraseña (no email)
+- **Validación algorítmica**: Implementa el algoritmo oficial de verificación de cédulas ecuatorianas
+- **Formato específico**: Cédulas de exactamente 10 dígitos numéricos
+- **Validación de provincia**: Verifica que los primeros 2 dígitos correspondan a provincias válidas (01-24)
+- **Dígito verificador**: Calcula y verifica el último dígito usando el algoritmo oficial
+- **Unicidad**: Cada DNI puede estar asociado a una sola cuenta
+- **Tiempo real**: Validación instantánea durante la creación de usuarios
+
+#### **Algoritmo de Validación Implementado:**
+1. **Limpieza**: Eliminación de caracteres no numéricos
+2. **Longitud**: Verificación de exactamente 10 dígitos
+3. **Provincia**: Validación de código provincial (01-24)
+4. **Cálculo**: Aplicación del algoritmo de módulo 10 con multiplicadores específicos
+5. **Verificación**: Comparación del dígito verificador calculado vs. proporcionado
+
+#### **Ventajas del Sistema DNI:**
+- **Seguridad**: Menor probabilidad de duplicados o errores de tipeo
+- **Facilidad**: Los usuarios recuerdan mejor su cédula que emails complejos
+- **Contexto local**: Adaptado específicamente para Ecuador
+- **Verificación**: Garantía de que solo cédulas válidas pueden crear cuentas
 
 ### 9.1. **Gestión Inteligente de Stock**
 - **Stock reservado**: Se descuenta al crear pedidos
@@ -448,10 +493,12 @@ Sistema completo de gestión de categorías:
 - **Alertas visuales**: Stock bajo, medio y alto con colores diferenciados
 
 ### 9.2. **Sistema de Validaciones**
+- **DNI único**: Sistema de autenticación basado en cédula ecuatoriana con validación algorítmica
+- **Validación de cédula**: Implementa el algoritmo oficial de verificación de cédulas ecuatorianas
 - **Email único**: Previene duplicados en creación de usuarios
 - **Nombres únicos**: Validación de categorías duplicadas
 - **Integridad referencial**: Previene eliminaciones que rompan relaciones
-- **Formularios responsivos**: Validaciones frontend y backend
+- **Formularios responsivos**: Validaciones frontend y backend con feedback en tiempo real
 
 ### 9.3. **Interfaz de Usuario Avanzada**
 - **Vistas expandibles**: JavaScript para mostrar/ocultar detalles
@@ -465,11 +512,17 @@ Sistema completo de gestión de categorías:
 - **Sistema de timestamps**: Fecha y hora de todas las acciones
 - **Usuario responsable**: Trazabilidad de quién realizó cada acción
 
-### 9.5. **Seguridad y Control de Acceso**
+### 10.5. **Seguridad y Control de Acceso**
+- **Autenticación robusta**: Sistema basado en DNI ecuatoriano validado + contraseña
+- **Control de estado**: Solo usuarios activos (estado=1) pueden acceder al sistema
 - **Roles diferenciados**: Acceso específico por tipo de usuario
-- **Validaciones de estado**: Verificación de estados de pedidos
+- **Validaciones de estado**: Verificación de estados de pedidos y usuarios
 - **Control de sesiones**: Verificación de autenticación en cada acción
+- **Prevención de duplicados**: DNI y email únicos en el sistema
+- **Validación algorítmica**: Implementación del algoritmo oficial de validación de cédulas ecuatorianas
 - **Eliminación segura**: Validaciones antes de borrar datos críticos
+- **Gestión de acceso**: Activación/desactivación de usuarios sin eliminar datos
+- **Trazabilidad de estados**: Registro completo de cambios de estado en el sistema de logs
 
 ---
 
@@ -531,6 +584,10 @@ Este documento recoge la visión completa del sistema implementado, roles, flujo
 ✅ **Eliminación de código obsoleto** - Sistema limpio y optimizado
 ✅ **Interfaces responsive** - Adaptables a todos los dispositivos
 ✅ **Validaciones completas** - Frontend y backend integrados
+✅ **Material Icons** - Iconografía profesional sin emojis
+✅ **Gestión de estados** - Control granular de usuarios activos/inactivos
+✅ **Autenticación por DNI** - Sistema seguro con validación de cédulas ecuatorianas
+✅ **Interfaz unificada** - Encabezados limpios y diseño consistente
 
 ### **Características Técnicas Clave:**
 - **Gestión automática de stock** que previene pérdidas de inventario
@@ -539,6 +596,9 @@ Este documento recoge la visión completa del sistema implementado, roles, flujo
 - **Sistema de logging robusto** con trazabilidad completa
 - **Interfaces intuitivas** con confirmaciones inteligentes
 - **Arquitectura limpia** sin código duplicado o obsoleto
+- **Material Icons** para iconografía profesional y consistente
+- **Control de estados** para gestión granular de usuarios
+- **Autenticación por DNI** con validación de cédulas ecuatorianas
+- **Interfaz unificada** con encabezados limpios y diseño coherente
 
 El sistema está preparado para **uso en producción** en un entorno hospitalario real, proporcionando todas las herramientas necesarias para gestión completa de medicamentos, usuarios, pedidos y entregas con la máxima seguridad e integridad de datos.
-
