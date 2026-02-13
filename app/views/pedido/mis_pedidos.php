@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Mis Pedidos - MediPlus</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo">Medi<span>Plus</span></div>
         <div class="nav-links">
-            <a href="<?php echo BASE_URL; ?>/home">Inicio</a>
-            <a href="<?php echo BASE_URL; ?>/catalogo">Catálogo</a>
-            <a href="<?php echo BASE_URL; ?>/auth/logout" style="color: var(--danger);">Salir</a>
+            <a href="<?php echo url('home'); ?>">Inicio</a>
+            <a href="<?php echo url('catalogo'); ?>">Cat\u00e1logo</a>
+            <a href="<?php echo url('auth/logout'); ?>" style="color: var(--danger);">Salir</a>
         </div>
     </nav>
 
@@ -22,7 +22,7 @@
         <?php if(empty($data['pedidos'])): ?>
             <div class="alert alert-error" style="text-align: center; background: white; border-color: #eee;">
                 No has realizado ningún pedido aún. <br><br>
-                <a href="<?php echo BASE_URL; ?>/catalogo" class="btn btn-primary">Ir al Catálogo</a>
+                <a href="<?php echo url('catalogo'); ?>" class="btn btn-primary">Ir al Catálogo</a>
             </div>
         <?php else: ?>
             <div class="table-container">
@@ -59,7 +59,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="<?php echo BASE_URL; ?>/uploads/<?php echo $p->receta_archivo; ?>" target="_blank" class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                                    <a href="<?php echo asset('uploads/' . $p->receta_archivo); ?>" target="_blank" class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
                                         📄 Ver Archivo
                                     </a>
                                 </td>

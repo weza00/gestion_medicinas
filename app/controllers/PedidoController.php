@@ -5,8 +5,7 @@ class PedidoController extends Controller {
     public function __construct() {
         // Verificar si está logueado
         if (!isset($_SESSION['user_id'])) {
-            header('location: ' . BASE_URL . '/auth/login');
-            exit();
+            redirect('auth/login');
         }
         $this->pedidoModelo = $this->model('Pedido');
     }
@@ -14,7 +13,7 @@ class PedidoController extends Controller {
     // Muestra el formulario de subida de receta
     public function checkout() {
         if (empty($_SESSION['carrito'])) {
-            header('location: ' . BASE_URL . '/catalogo');
+            redirect('catalogo');
         }
         $this->view('pedido/checkout');
     }
@@ -46,7 +45,7 @@ class PedidoController extends Controller {
 
                         // 4. Vaciar Carrito y Redirigir
                         unset($_SESSION['carrito']);
-                        header('location: ' . BASE_URL . '/pedido/exito');
+                        redirect('pedido/exito');
 
                     } else {
                         die("Error al guardar en base de datos");

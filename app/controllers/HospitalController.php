@@ -10,8 +10,7 @@ class HospitalController extends Controller {
         // Verificar que el usuario tenga un rol hospitalario
         if (!isset($_SESSION['user_rol']) || 
             !in_array($_SESSION['user_rol'], ['admin', 'validador', 'farmaceutico'])) {
-            header('location: ' . BASE_URL . '/auth/login');
-            exit();
+            redirect('auth/login');
         }
 
         // Cargar modelos
@@ -242,8 +241,7 @@ class HospitalController extends Controller {
         }
 
         if (!$id) {
-            header('location: ' . BASE_URL . '/hospital/usuarios');
-            exit();
+            redirect('hospital/usuarios');
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -303,8 +301,7 @@ class HospitalController extends Controller {
             $usuario = $db->register();
 
             if (!$usuario) {
-                header('location: ' . BASE_URL . '/hospital/usuarios');
-                exit();
+                redirect('hospital/usuarios');
             }
 
             $datos = [
@@ -326,8 +323,7 @@ class HospitalController extends Controller {
         }
 
         if (!$id || $id == $_SESSION['user_id']) {
-            header('location: ' . BASE_URL . '/hospital/usuarios');
-            exit();
+            redirect('hospital/usuarios');
         }
 
         // Obtener datos del usuario antes de desactivar
@@ -360,8 +356,7 @@ class HospitalController extends Controller {
         }
 
         if (!$id || $id == $_SESSION['user_id']) {
-            header('location: ' . BASE_URL . '/hospital/usuarios');
-            exit();
+            redirect('hospital/usuarios');
         }
 
         // Obtener datos del usuario antes de activar
@@ -371,7 +366,7 @@ class HospitalController extends Controller {
         $usuario = $db->register();
 
         if (!$usuario) {
-            echo "<script>alert('Usuario no encontrado o ya está activo'); window.location.href='" . BASE_URL . "/hospital/usuarios';</script>";
+            echo "<script>alert('Usuario no encontrado o ya est\u00e1 activo'); window.location.href='" . url('hospital/usuarios') . "';</script>";
             return;
         }
 
@@ -416,7 +411,7 @@ class HospitalController extends Controller {
 
         if ($this->pedidoModelo->actualizarEstado($id, 'aprobado', $codigo)) {
             $this->logModelo->registrar($_SESSION['user_id'], "Pedido #$id aprobado con código $codigo", $id);
-            header('location: ' . BASE_URL . '/hospital/validar');
+            redirect('hospital/validar');
         } else {
             die('Error al aprobar');
         }
@@ -430,7 +425,7 @@ class HospitalController extends Controller {
 
         if ($this->pedidoModelo->actualizarEstado($id, 'rechazado', null)) {
             $this->logModelo->registrar($_SESSION['user_id'], "Pedido #$id rechazado", $id);
-            header('location: ' . BASE_URL . '/hospital/validar');
+            redirect('hospital/validar');
         } else {
             die('Error al rechazar');
         }

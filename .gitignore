@@ -1,0 +1,61 @@
+# Variables de entorno con datos sensibles
+.env
+
+# Logs
+logs/
+*.log
+app.log
+error.log
+
+# Archivos de base de datos temporales  
+*.sql.backup
+*.sql.bak
+dumps/
+
+# Archivos subidos por usuarios
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Cache
+cache/
+temp/
+tmp/
+
+# Configuración del IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de backup
+*.bak
+*.backup
+*.old
+*.orig
+*~
+
+# Configuración local del servidor
+.htaccess.local
+nginx.conf.local
+
+# Dependencias (si se usan más adelante)
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# Archivos de certificados SSL (por seguridad)
+*.key
+*.crt
+*.pem
+ssl/
+
+# Archivos de deployment
+deploy.log
+deployment/
+scripts/deploy.sh.local

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MediPlus - Farmacia Hospitalaria</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -87,14 +87,14 @@
         <div class="nav-links">
             <?php if(isset($_SESSION['user_id'])): ?>
                 <?php if($_SESSION['user_rol'] == 'paciente'): ?>
-                    <a href="<?php echo BASE_URL; ?>/pedido/mis_pedidos"><i class="material-icons">receipt</i> Mis Pedidos</a>
-                    <a href="<?php echo BASE_URL; ?>/carrito"><i class="material-icons">shopping_cart</i> Carrito <span style="background:var(--primary); color:white; padding:2px 6px; border-radius:10px; font-size:0.8em;"><?php echo isset($_SESSION['carrito']) ? array_sum($_SESSION['carrito']) : 0; ?></span></a>
+                    <a href="<?php echo url('pedido/mis_pedidos'); ?>"><i class="material-icons">receipt</i> Mis Pedidos</a>
+                    <a href="<?php echo url('carrito'); ?>"><i class="material-icons">shopping_cart</i> Carrito <span style="background:var(--primary); color:white; padding:2px 6px; border-radius:10px; font-size:0.8em;"><?php echo isset($_SESSION['carrito']) ? array_sum($_SESSION['carrito']) : 0; ?></span></a>
                 <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/hospital/inicio" class="btn-nav"><i class="material-icons">dashboard</i> Volver al Panel</a>
+                    <a href="<?php echo url('hospital/inicio'); ?>" class="btn-nav"><i class="material-icons">dashboard</i> Volver al Panel</a>
                 <?php endif; ?>
-                <a href="<?php echo BASE_URL; ?>/auth/logout" style="color: var(--danger);"><i class="material-icons">logout</i> Salir</a>
+                <a href="<?php echo url('auth/logout'); ?>" style="color: var(--danger);"><i class="material-icons">logout</i> Salir</a>
             <?php else: ?>
-                <a href="<?php echo BASE_URL; ?>/auth/login" class="btn-nav"><i class="material-icons">login</i> Ingresar</a>
+                <a href="<?php echo url('auth/login'); ?>" class="btn-nav"><i class="material-icons">login</i> Ingresar</a>
             <?php endif; ?>
         </div>
     </nav>
@@ -190,7 +190,7 @@
                                 <div class="price">$<?php echo $med->precio; ?></div>
                                 
                                 <?php if(isset($_SESSION['user_id']) && $_SESSION['user_rol'] == 'paciente' && $med->stock > 0): ?>
-                                    <form action="<?php echo BASE_URL; ?>/carrito/agregar" method="POST">
+                                    <form action="<?php echo url('carrito/agregar'); ?>" method="POST">
                                         <input type="hidden" name="id" value="<?php echo $med->id; ?>">
                                         <button type="submit" class="btn-add">
                                             <i class="material-icons" style="font-size: 16px; vertical-align: middle;">add_shopping_cart</i>

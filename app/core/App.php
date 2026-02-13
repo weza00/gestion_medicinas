@@ -34,12 +34,42 @@ class App {
     }
 
     public function getUrl() {
+        $url = '';
+        
+        // Manejar diferentes formas de obtener la URL según el servidor web
         if (isset($_GET['url'])) {
-            $url = rtrim($_GET['url'], '/');
+            // Método tradicional con parámetro GET (Apache y nginx con query string)
+            $url = $_GET['url'];
+        } elseif (isset($_SERVER['PATH_INFO'])) {
+            // PATH_INFO disponible
+            $url = $_SERVER['PATH_INFO'];
+        } elseif (isset($_SERVER['REQUEST_URI'])) {
+            // Extraer de REQUEST_URI (más robusto para nginx)
+            $requestUri = $_SERVER['REQUEST_URI'];
+            
+            // Remover query string si existe
+            $queryPos = strpos($requestUri, '?');
+            if ($queryPos !== false) {
+                $requestUri = substr($requestUri, 0, $queryPos);
+            }
+            
+            // Remover el directorio base si la aplicación está en un subdirectorio
+            $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+            if ($scriptName !== '/' && strpos($requestUri, $scriptName) === 0) {
+                $requestUri = substr($requestUri, strlen($scriptName));
+            }
+            
+            $url = ltrim($requestUri, '/');
+        }
+        
+        if (!empty($url)) {
+            $url = rtrim($url, '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = explode('/', $url);
             return $url;
         }
+        
+        return [];
     }
 }
 ?>

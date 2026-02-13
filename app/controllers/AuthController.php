@@ -13,8 +13,7 @@ class AuthController extends Controller {
     // Registro eliminado - Solo admins pueden crear cuentas
     public function registro() {
         // Redireccionar al login si alguien intenta acceder al registro
-        header('location: ' . BASE_URL . '/auth/login');
-        exit();
+        redirect('auth/login');
     }
 
     public function login() {
@@ -37,10 +36,10 @@ class AuthController extends Controller {
                     case 'admin':
                     case 'validador':
                     case 'farmaceutico':
-                        header('location: ' . BASE_URL . '/hospital/inicio');
+                        redirect('hospital/inicio');
                         break;
                     default: // Pacientes
-                        header('location: ' . BASE_URL . '/home');
+                        redirect('home');
                         break;
                 }
                 // -----------------------------------------
@@ -57,7 +56,7 @@ class AuthController extends Controller {
 
     public function logout() {
         session_destroy();
-        header('location: ' . BASE_URL . '/home');
+        redirect('home');
     }
 }
 ?>

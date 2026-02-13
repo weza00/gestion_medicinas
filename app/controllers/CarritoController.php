@@ -47,14 +47,14 @@ class CarritoController extends Controller {
                 $_SESSION['carrito'][$id] = 1;
             }
 
-            header('location: ' . BASE_URL . '/catalogo');
+            redirect('catalogo');
         }
     }
 
     // Vaciar carrito
     public function vaciar() {
         unset($_SESSION['carrito']);
-        header('location: ' . BASE_URL . '/catalogo');
+        redirect('catalogo');
     }
 
     // Eliminar un item específico
@@ -62,7 +62,7 @@ class CarritoController extends Controller {
         if (isset($_SESSION['carrito'][$id])) {
             unset($_SESSION['carrito'][$id]);
         }
-        header('location: ' . BASE_URL . '/carrito');
+        redirect('carrito');
     }
 }
 ?>

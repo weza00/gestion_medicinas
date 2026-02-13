@@ -16,6 +16,6 @@
     <p>Si todo está correcto, se generará su <strong>Código de Retiro</strong>.</p>
     
     <br><br>
-    <a href="<?php echo BASE_URL; ?>/home">Volver al Inicio</a>
+    <a href="<?php echo url('home'); ?>">Volver al Inicio</a>
 </body>
 </html>

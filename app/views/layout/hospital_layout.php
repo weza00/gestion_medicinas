@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($data['titulo']) ? $data['titulo'] : 'Panel Hospitalario'; ?> - MediPlus</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -173,7 +173,7 @@
             <div class="sidebar-nav">
                 <!-- Inicio - Visible para todos -->
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/inicio" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'inicio') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/inicio'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'inicio') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">dashboard</i>
                         Inicio
                     </a>
@@ -182,7 +182,7 @@
                 <!-- Validar Pedido - Solo validador -->
                 <?php if($_SESSION['user_rol'] == 'validador'): ?>
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/validar" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'validar') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/validar'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'validar') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">verified_user</i>
                         Validar Pedidos
                     </a>
@@ -192,7 +192,7 @@
                 <!-- Entregar Pedido - Solo farmacéutico -->
                 <?php if($_SESSION['user_rol'] == 'farmaceutico'): ?>
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/entregar" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'entregar') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/entregar'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'entregar') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">local_shipping</i>
                         Entregar Pedidos
                     </a>
@@ -202,14 +202,14 @@
                 <!-- Medicamentos - Solo admin -->
                 <?php if($_SESSION['user_rol'] == 'admin'): ?>
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/medicamentos" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'medicamentos') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/medicamentos'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'medicamentos') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">medication</i>
                         Medicamentos
                     </a>
                 </div>
 
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/categorias" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'categorias') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/categorias'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'categorias') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">category</i>
                         Categorías
                     </a>
@@ -217,7 +217,7 @@
 
                 <!-- Usuarios - Solo admin -->
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/usuarios" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'usuarios') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/usuarios'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'usuarios') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">group</i>
                         Usuarios
                     </a>
@@ -225,7 +225,7 @@
 
                 <!-- Registro/Logs - Solo admin -->
                 <div class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/hospital/logs" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'logs') ? 'active' : ''; ?>">
+                    <a href="<?php echo url('hospital/logs'); ?>" class="nav-link <?php echo (isset($data['seccion']) && $data['seccion'] == 'logs') ? 'active' : ''; ?>">
                         <i class="material-icons nav-icon">description</i>
                         Registro del Sistema
                     </a>
@@ -244,10 +244,10 @@
                     </h1>
                 </div>
                 <div>
-                    <a href="<?php echo BASE_URL; ?>/home" style="color: var(--text-light); margin-right: 20px;">
+                    <a href="<?php echo url('home'); ?>" style="color: var(--text-light); margin-right: 20px;">
                         <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">public</i>Ver Sitio Público
                     </a>
-                    <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">
+                    <a href="<?php echo url('auth/logout'); ?>" class="logout-btn">
                         <i class="material-icons" style="vertical-align: middle; margin-right: 5px;">logout</i>Cerrar Sesión
                     </a>
                 </div>

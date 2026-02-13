@@ -18,7 +18,7 @@
             ⚠ Para dispensar estos medicamentos, es obligatorio adjuntar su receta médica válida.
         </div>
 
-        <form action="<?php echo BASE_URL; ?>/pedido/procesar" method="POST" enctype="multipart/form-data">
+        <form action="<?php echo url('pedido/procesar'); ?>" method="POST" enctype="multipart/form-data">
             
             <label>Subir Receta (PDF o Imagen):</label><br>
             <input type="file" name="receta" accept=".pdf, .jpg, .jpeg, .png" required>
@@ -29,7 +29,7 @@
             <button type="submit" class="btn">Finalizar y Enviar Pedido</button>
         </form>
         <br>
-        <a href="<?php echo BASE_URL; ?>/carrito">Volver al carrito</a>
+        <a href="<?php echo url('carrito'); ?>">Volver al carrito</a>
     </div>
 </body>
 </html>
